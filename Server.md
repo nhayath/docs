@@ -97,7 +97,7 @@ $ sudo chsh -s /bin/bash adminname
 
 [DigitalOcean Guide](https://www.digitalocean.com/community/tutorials/how-to-install-linux-nginx-mysql-php-lemp-stack-in-ubuntu-16-04)
 
-**Nginx**
+#### Nginx
 
 ```
 $ sudo apt install nginx
@@ -112,7 +112,7 @@ $ sudo ufw status
 	- Edit `/etc/nginx/nginx.conf`
 	- Replace `nginx.conf` with [this file](nginx.conf)
 	
-** MySql **
+#### MySql
 
 ```
 $ sudo apt install mysql-server
@@ -133,7 +133,7 @@ init-connect='SET NAMES utf8'
 character-set-server = utf8
 ```
 
-** PHP **
+#### PHP
 
 - Install PHP
 
