@@ -6,11 +6,11 @@
 - [Setup firewall](#setup-firewall)
 - [Transferring Files](#transferring-files)
 - [Install App](#install-apps)
-	-- [Nginx](#nginx)
-	-- [PHP](#php)
-	-- [MySQL](#mysql)
-	-- [Redis](#redis) 
-	-- [Tools](#tools)
+	- [Nginx](#nginx)
+	- [PHP](#php)
+	- [MySQL](#mysql)
+	- [Redis](#redis) 
+	- [Tools](#tools)
 
 - [Troubleshoots](#troubleshoots)
 
@@ -84,6 +84,20 @@ $ sudo chsh -s /bin/bash adminname
 - Using `scp`
 ```
 # local to remote
+$ scp file.zip user@host:/path/
+#remove to local
+$ scp user@host:/path/file.zip ~/home/path/
+```
+- Mouse remote folder using `sshfs`
+```
+# install `sshfs`
+suod apt install sshfs
+# create mound dir
+mkdir /home/remote-dir
+# mount
+sshfs user@host:~/ /home/remote-dir
+# unmount
+umount /home/remote-dir
 ```
 
 
@@ -193,7 +207,7 @@ $ php -m
 > igbinary
 >  redis
 
-** REDIS **
+#### REDIS
 
 - Add `PPA` & install Redis
 
@@ -204,8 +218,7 @@ $ sudo apt install redis-server
 $ redis-cli
 ```
 
-
-** TOOLS **
+#### TOOLS
 ```
 # curl
 $ sudo apt install curl
