@@ -1,19 +1,18 @@
 # SERVER SETUP
 
-> [Securing Server](#securing-server)
-> [Create user](#create-user)
-> [Configure ssh server](#configure-ssh-server)
-> [Setup firewall](#setup-firewall)
-> [Transferring Files](#transferring-files)
-> [Install App](#install-apps)
+- [Securing Server](#securing-server)
+- [Create user](#create-user)
+- [Configure ssh server](#configure-ssh-server)
+- [Setup firewall](#setup-firewall)
+- [Transferring Files](#transferring-files)
+- [Install App](#install-apps)
+	-- [Nginx](#nginx)
+	-- [PHP](#php)
+	-- [MySQL](#mysql)
+	-- [Redis](#redis) 
+	-- [Tools](#tools)
 
->>[LEMP Stack](#lemp-stack)
->> [PHP](#php)
->>[MySQL](#mysql)
->>[Redis](#redis) 
->> [Tools](#tools)
-
-> [Troubleshoots](#troubleshoots)
+- [Troubleshoots](#troubleshoots)
 
 
 #### Securing Server
