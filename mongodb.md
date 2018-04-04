@@ -49,12 +49,15 @@ mongo -u admin -p --authenticationDatabase admin
 - allow connection from `localhost` only
 - edit `/etc/mongod.conf`
 - & set bind ip to `127.0.0.1`
-- to allow from other maching
-- set `bind_ip=127.0.0.1,server_public_ip_address,...`
-- set ufw to allow the ip to connect to mongodb 
+
+#### Remote Connection
+- To allow a client to connect remotely
+- edit `/etc/mongod.conf` & bind mongodb to server's public address
+- set `bindIp=127.0.0.1,server_public_ip_address,...`
+- Set firewall
 
 ```
-$ sudo ufw allow from client_ip_address to any port 27017
+$ sudo ufw allow from <client_ip_address> to any port 27017
 $ sudo ufw status
 ```
 

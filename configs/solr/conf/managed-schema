@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+
+<schema name="default-config" version="1.6">
+    
+    <field name="_version_" type="plong" indexed="false" stored="false"/>
+    <field name="_root_" type="string" indexed="true" stored="false" docValues="false" />
+    <!-- 
+      - default search filed 
+      - searched when no field name is given e.g: q=keyworkds..
+      - all searchable fields should be copied here
+    -->
+    <field name="_text_" type="text_general" indexed="true" stored="false" multiValued="true"/>
+   
+
+    <uniqueKey>id</uniqueKey>
+
+    <!-- 
+      ======================================
+      custom fields
+      ======================================
+     -->
+
+    <!-- define id -->
+    <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" />
+
+    <!-- not indexed, will be copied to catchall -->
+    <field name="name" type="text_general" indexed="false" stored="true"/>
+
+    <!-- gender -->
+    <field name="gender" type="string" indexed="true" stored="true" multiValued="false"/>
+
+    <!-- category id -->
+    <field name="category_id" type="pint" indexed="true" stored="true" />
+    <!-- category name -->
+    <field name="category_name" type="string" indexed="false" stored="true" multiValued="false"/>
+
+    <!-- store id -->
+    <field name="store_id" type="pint" indexed="true" stored="true" />
+    <!-- store name -->
+    <field name="store_name" type="string" indexed="false" stored="true" multiValued="false"/>
+
+    <!-- price -->
+    <field name="price" type="pint" indexed="true" stored="true" />
+
+    <!-- score -->
+    <field name="score" type="pint" indexed="true" stored="true" />
+
+    <!-- 
+      ======================================
+      copy fields to default search field `_text_`
+      ======================================
+     -->
+
+    <copyField source="name" dest="_text_"/>
+    <copyField source="gender" dest="_text_"/>
+    <copyField source="category_name" dest="_text_"/>
+    <copyField source="store_name" dest="_text_"/>
+
+
+    <!-- 
+      ======================================= 
+      Field types
+      =======================================
+
+     -->
+    <!-- string -->
+    <fieldType name="string" class="solr.StrField" sortMissingLast="true" docValues="true" />
+    <fieldType name="strings" class="solr.StrField" sortMissingLast="true" multiValued="true" docValues="true" />
+
+    <!-- bollean -->
+    <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"/>
+    <fieldType name="booleans" class="solr.BoolField" sortMissingLast="true" multiValued="true"/>
+    
+    <!-- numeric -->
+    <fieldType name="pint" class="solr.IntPointField" docValues="true"/>    
+    <fieldType name="pints" class="solr.IntPointField" docValues="true" multiValued="true"/>
+    <fieldType name="plong" class="solr.LongPointField" docValues="true"/>
+
+    <!-- A general text field that has reasonable, generic
+         cross-language defaults: it tokenizes with StandardTokenizer,
+	       removes stop words from case-insensitive "stopwords.txt"
+	       (empty by default), and down cases.  At query time only, it
+	       also applies synonyms.
+	  -->
+    <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" />
+        <!-- in this example, we will only use synonyms at query time
+        <filter class="solr.SynonymGraphFilterFactory" synonyms="index_synonyms.txt" ignoreCase="true" expand="false"/>
+        <filter class="solr.FlattenGraphFilterFactory"/>
+        -->
+        <filter class="solr.LowerCaseFilterFactory"/>
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" />
+        <filter class="solr.SynonymGraphFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+      </analyzer>
+    </fieldType>
+
+</schema>
