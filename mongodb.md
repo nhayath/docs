@@ -60,6 +60,10 @@ mongo -u admin -p --authenticationDatabase admin
 $ sudo ufw allow from <client_ip_address> to any port 27017
 $ sudo ufw status
 ```
+### Bulk update using robomongo
+```
+db.getCollection('categories').update({}, {$set: {isActive: NumberInt(1)}}, {upsert: true, multi: true})
+```
 
 #### Backup & Restore
 - Backup
@@ -77,4 +81,14 @@ mongodump --db <db-name> --username <user> --password <pass> --gzip --archive=/h
 mongorestore --gzip --archive=/path/to/archive
 # specific db with security enabled
 > mongorestore --db <db-name> --username <user> --password <pass> --gzip --archive=tmp/dump.gz
+# user --drop flah if you want to completely overwrite
+```
+
+- Monitor
+- login as admin
+```
+# server status
+db.serverStatus()
+# check number of connection
+db.serverStatus().connections
 ```

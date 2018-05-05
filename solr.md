@@ -19,40 +19,19 @@ $ bin/solr create -c <collection-name>
 $ bin/solr delete -c <collection-name>
 ```
 
-#### Create Schemaless Index
-- set type for `name` field so that it's not wrognly identified any other type other than `text`, as some has number as their title
-- schema type should be set before storing any documents
-- to create field
+- Set min and max memory
 ```
-$ curl -X POST -H 'Content-type:application/json' --data-binary '{"add-field": {"name":"name", "type":"text_general", "multiValued":false, "stored":true}}' http://localhost:8983/solr/<collection-name>/schema
-```
-- or using admin dashboard
+Open solr.in.cmd in any text editor (path: bin/solr.in.cmd)
 
-![](imgs/20180402-210032.png)
+Add the set SOLR_JAVA_MEM=-Xms1g -Xmx1g ( it will set the minimum and maximum Java heap memory by 1 GB. however you will only able the see 981.38 MB in solr dashboard)
 
-- `catchall` copy field
-	- searched when no `field` is defined in `q`
-	- e.g `q=search-string`
-	- `catchall field` will combine all text fields and index it into a field named _text_.
-	- this is expensive as it copy's every field
-	- it's like indexing everything twice
-	- not good for production
-- create using `http`
-```
-curl -X POST -H 'Content-type:application/json' --data-binary '{"add-copy-field" : {"source":"*","dest":"_text_"}}' http://localhost:8983/solr/<collection-name>/schema
-```
-- using admin
+save the solr.in.cmd file and restart the solr
+````
 
-![](imgs/20180402-210718.png)
+#### CRUD
 
-#### Creating custom collection
-- create a collection called `items`
 ```
-$ bin/solr create -c items -d <config-name>
-```
-
-- Store items
-```
+- create
 http://localhost:8983/solr/<collection_name>/update?commitWithin=1000
 {
 	[ 
@@ -62,8 +41,10 @@ http://localhost:8983/solr/<collection_name>/update?commitWithin=1000
 	]
 }
 ```
+- update
 
-#### Deleting
+- delete
+
 ```
 # delete a specific document:
 
@@ -92,10 +73,85 @@ $ cp _default to <new-config-folder-name>
 curl http://localhost:8983/solr/<col>/get?id=book1
 ```
 
+#### Faceted Search
+- a sample faceted search 
+- returns `gender`, `categories` & `stores`
+```
+{
+	"query": "*:*",
+	"limit": 0,
+	"facet": {
+		"gender": {
+			"type": "terms",
+			"field": "gender"
+		},
+		"categories": {
+			"type": "terms",
+			"field": "category_id",
+			"domain": { "excludeTags": "cat"}
+		},
+		
+		"stores": {
+			"type": "terms",
+			"field": "store_id",
+			"limit": 5
+		},
+		
+		"price_range": {
+			"type": "range",
+			"field": "price",
+			"start": 0,
+			"end": 10000,
+			"gap": 1000,
+			"other": "after",
+			"hardened": true
+		}
+	}
+}
+```
+
+- filter where `category: 32 or 26` & `store: 34 or 40`
+```
+{
+	"query": "*:*",
+	"limit": 0,
+	"filter": ["{!tag=tagCategory}category_id:(32 26)", "{!tag=tagStore}store_id:(34 40)"],
+	"facet": {
+		"gender": {
+			"type": "terms",
+			"field": "gender"
+		},
+		"categories": {
+			"type": "terms",
+			"field": "category_id",
+			"domain": { "excludeTags": "tagCategory" }
+		},
+		
+		"stores": {
+			"type": "terms",
+			"field": "store_id",
+			"limit": 5,
+			"domain": { "excludeTags": "tagStore" }
+		},
+		
+		"price_range": {
+			"type": "range",
+			"field": "price",
+			"start": 0,
+			"end": 10000,
+			"gap": 1000,
+			"other": "after",
+			"hardened": true
+		}
+	}
+}
+```
+
 #### Tutorials
 - http://yonik.com/solr-tutorial/
 - http://www.solrtutorial.com/solr-in-5-minutes.html
 - http://lucene.apache.org/solr/guide/7_2/solr-tutorial.html
 - facets
 	- https://lucidworks.com/2009/09/02/faceted-search-with-solr/
+	- http://yonik.com/multi-select-faceting/
 
