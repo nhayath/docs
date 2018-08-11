@@ -65,6 +65,11 @@ $ sudo ufw status
 db.getCollection('categories').update({}, {$set: {isActive: NumberInt(1)}}, {upsert: true, multi: true})
 ```
 
+#### Remove by date
+```
+db.getCollection('products').remove({'store._id': 10, 'category._id': 12, createdAt: { $gte : ISODate("2018-06-21T21:00:00Z") } })
+```
+
 #### Backup & Restore
 - Backup
 ```
@@ -73,6 +78,9 @@ $ mongodump --db <db-name> --username <user> --password <pass>
 
 # compress
 mongodump --db <db-name> --username <user> --password <pass> --gzip --archive=/home/nasim/Downloads/mongo-cs.gz
+
+# for remote db
+$ mongodump --host <host_ip_or_address> --db <db-name> --username <user> --password <pass> --gzip --archive=/home/nasim/Downloads/mongo-cs.gz
 
 ```
 - Restore

@@ -6,14 +6,43 @@ sudo apt update
 sudo apt -y install oracle-java9-installer
 ```
 
-### Installing
+### Installing Elasticsearch
 - go to http://www.elastic.co/downloads
 - and download latest `elasticsearch` & `kibana`
 
 ```
-sudo dpkg -i elasticsearch
-sudo dpkg -i kibana
+# elastic serach
+$ wget https://artifacts.elastic.co/downloads/elasticsearch/
+$ elasticsearch-6.2.4.deb
+$ sudo dpkg -i elasticsearch
+# install x-pack for elastic search
+$ sudo /usr/share/elasticsearch/bin/elasticsearch-plugin install x-pack
+# select 'y' to every prompt
+# setup password for elastic search
+$ sudo /usr/share/elasticsearch/bin/x-pack/setup-passwords interactive
 ```
+- now point your browser to `http://localhost:9200`
+- default username is: `elastic`
+
+# Install `Kibana`
+```
+sudo dpkg -i kibana
+# install x-pack for kibana
+$ sudo /usr/share/kibana/bin/kibana-plugin install x-pack
+# might take a white to install
+```
+
+- now edit `/etc/kibana/kibana.yml` & uncomment & set elasticsearch 'username` & `pass`
+```
+elasticsearch.username: "username"
+elasticsearch.password: "pass"
+```
+
+- start kibana
+```
+sudo service kibana start
+```
+- check on `http://localhost:5601`
 
 - for automatic startup
 ```
@@ -26,11 +55,31 @@ sudo update-rc.d elasticsearch defaults
 - `logging.yml` - logging settings
 - Edit `/etc/elasticsearch/elasticsearch.yml` & change
 	- node.name & cluster.name
+	- set `discovery.type: single-node`
 - start elastic server & check
 ```
 sudo service elasticsearch start
 curl -X get 'http://localhost:9200'
 ```
+
+- set default shards & replicas
+- from kibana post
+```
+
+# set defautl template
+PUT _template/all
+{
+  "template": "*",
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0
+  }
+}
+
+# All settings
+GET _all/_settings
+```
+
 - log
 ```
 # check log
@@ -38,14 +87,6 @@ sudo journalctl --unit elasticsearch
 # from a specific time
 sudo journalctl --unit elasticsearch --since  "2016-10-30 18:17:16"
 ```
-
-#### kibana
-- install
-```
-sudo dpkg -i kibana.dev
-sudo service kibana start
-```
-- check on `http://localhost:5601`
 
 #### CRUD
 ```

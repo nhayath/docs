@@ -88,7 +88,7 @@ $ scp file.zip user@host:/path/
 #remove to local
 $ scp user@host:/path/file.zip ~/home/path/
 ```
-- Mouse remote folder using `sshfs`
+- Mount remote folder using `sshfs`
 ```
 # install `sshfs`
 suod apt install sshfs
@@ -257,6 +257,11 @@ $ dpkg-reconfigure tzdata
 
 # network services running
 sudo netstat -tulpn
+
+# ssh tunnels
+ssh user@example.com -L 3306:127.0.0.1:3306 -N
+# now to connect mysql use
+$ mysql -u root -p --host 127.0.0.1 --port 2206
 ```
 
 # mysql
