@@ -262,6 +262,9 @@ sudo netstat -tulpn
 ssh user@example.com -L 3306:127.0.0.1:3306 -N
 # now to connect mysql use
 $ mysql -u root -p --host 127.0.0.1 --port 2206
+
+# compress and copy file from remote computer
+$ ssh user@server "tar czf - matrimony/" > matrimony.tgz
 ```
 
 # mysql
