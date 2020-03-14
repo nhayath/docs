@@ -14,6 +14,7 @@ $ git push origin --delete {the_remote_branch}
 ```
 $ git rm -r --cached path_to_your_folder/
 $ git add . && commit && push
+# add test dir to .gitignore
 ```
 
 - Overwrite local changes
