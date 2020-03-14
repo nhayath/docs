@@ -1,4 +1,4 @@
-[x] remove local branch
+> remove local branch
 ```
 $ git branch -d branch_name
 # force
