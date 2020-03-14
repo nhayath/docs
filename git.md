@@ -15,3 +15,9 @@ $ git push origin --delete {the_remote_branch}
 $ git rm -r --cached path_to_your_folder/
 $ git add . && commit && push
 ```
+
+- Overwrite local changes
+```
+git stash push --include-untracked
+git stash drop
+```
