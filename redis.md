@@ -43,3 +43,11 @@ sudo cp /var/lib/redis/dump.rdb /home/sammy/redis-backup-001
 ```
 > flushall
 ```
+
+## Restore
+- stop redis-server
+- check `/etc/redis/redis.conf` file and set appendonly to `no` if it's not already
+- copy dump file to /var/lib/redis
+- change file user and group to redis:redis
+- change permission to 644
+- start server
