@@ -265,6 +265,9 @@ $ mysql -u root -p --host 127.0.0.1 --port 2206
 
 # compress and copy file from remote computer
 $ ssh user@server "tar czf - matrimony/" > matrimony.tgz
+
+# watch log streams, ignore the lines that are bots log
+$ tail -f /var/log/nginx/access.log | grep -ivE "AhrefsBot|semrush|mj12bot|googlebot|bingbot"
 ```
 
 # mysql
